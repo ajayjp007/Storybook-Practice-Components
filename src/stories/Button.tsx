@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import './button.css';
 
 interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'text-only';
+  variant?: 'primary' | 'secondary';
   backgroundColor?: string;
   size?: 'small' | 'medium' | 'large';
   label: string;
-  onClick?: () => { action: "onClick" };
-  color?: string,
-  border?: 'none' | 'small' | 'medium' | 'large';
+  onClick?: () => { action: 'onClick' };
+  color?: string;
 }
-
 
 export const Button = ({
   variant = 'primary',
@@ -18,23 +16,46 @@ export const Button = ({
   backgroundColor,
   label,
   color,
-  border,
   ...props
 }: ButtonProps) => {
-
-  const [clicked, setClicked] = useState<boolean>(false)
-
-  const clickHandler = () => {
-    setClicked(true)
-
-    setTimeout(() => {
-      setClicked(false)
-    }, 1000)
-  }
-
+  const [sendFriendRequest, setSendFriendRequest] = useState<boolean>(false);
+  const addFriendHandler = () => {
+    setSendFriendRequest(!sendFriendRequest);
+  };
   return (
-    <button type="submit" className={[`loading-btn-${size} loading-btn-spinner-${size}`].join('')} onClick={clickHandler} style={{ backgroundColor, color }}>
-      {!clicked ? label : <span className="loader-spinner-icon"></span>}
+    <button
+      style={{ backgroundColor, color }}
+      type="button"
+      className={
+        !sendFriendRequest
+          ? `follow-btn-${size}`
+          : `requested follow-btn-${size}`
+      }
+      onClick={addFriendHandler}
+    >
+      {!sendFriendRequest ? label : 'Requested'}
     </button>
   );
 };
+
+//   const [clicked, setClicked] = useState<boolean>(false);
+
+//   const clickHandler = () => {
+//     setClicked(true);
+
+//     setTimeout(() => {
+//       setClicked(false);
+//     }, 1000);
+//   };
+
+//   return (
+//     <button
+//       type="submit"
+//       className={[`loading-btn-${size} loading-btn-spinner-${size}`].join('')}
+//       onClick={clickHandler}
+//       style={{ backgroundColor, color }}
+//     >
+//       {!clicked ? label : <span className="loader-spinner-icon"></span>}
+//     </button>
+//   );
+// };
